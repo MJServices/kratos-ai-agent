@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true
+    required: true,
   },
   chatHistory: [{
     type: mongoose.Schema.Types.ObjectId,
@@ -34,13 +34,13 @@ userSchema.statics.hashPassword = async (password) => {
   return hashedPassword;
 };
 
-userSchema.methods.comparePassword = async (password) => {
+userSchema.methods.comparePassword = async function(password) {
   const isMatch = await bcrypt.compare(password, this.password);
   return isMatch;
 };
 
-userSchema.methods.generateJWT = async (user) => {
-  const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
+userSchema.methods.generateJWT = function() {
+  const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET);
   return token;
 };
 
