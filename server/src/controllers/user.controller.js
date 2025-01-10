@@ -92,3 +92,21 @@ export const profileUserController = async (req, res) => {
     )
   );
 };
+
+export const logoutUser = async (req, res) =>{
+  try {
+    let {token} = req.cookie
+    token = null
+    return res.status(200).json(
+      new ApiResponse(
+        200,
+        null,
+        "User successfully Logged out"
+      )
+    );
+  } catch (error) {
+    throw new ApiError(401, error.message, [error])
+  }
+}
+
+
